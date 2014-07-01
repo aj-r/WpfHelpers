@@ -31,7 +31,7 @@ namespace WpfHelpers.Controls
             Value = string.IsNullOrEmpty(Text) ? 0 : double.Parse(Text);
         }
 
-        public static DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(IntegerTextBox),
+        public static DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(NumericTextBox),
             new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ValueProperty_Changed));
 
         public double Value
