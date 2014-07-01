@@ -15,7 +15,7 @@ namespace WpfHelpers
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var path = (string)value;
-            return Path.GetFileName(path);
+            return Path.GetFileNameWithoutExtension(path);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
