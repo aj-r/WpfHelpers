@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
-    <Compile Include="Controls\ContentWrapper.cs" />
     <Compile Include="Controls\RestrictedValueTextBox.cs" />
     <Compile Include="Controls\NumericTextBox.cs" />
     <Compile Include="Controls\IntegerTextBox.cs" />
