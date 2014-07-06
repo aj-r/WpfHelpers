@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="Transparent" />
+    <Style BasedOn="{StaticResource {x:Type TextBox}}"
+           TargetType="{x:Type TextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Name="Bd"
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}" 
+                            SnapsToDevicePixels="true">
+                        <ScrollViewer Name="PART_ContentHost"
+                                      Background="{TemplateBinding Background}" 
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Make TextBox look like TextBlock when disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Padding" Value="1" />
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="PART_ContentHost" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
