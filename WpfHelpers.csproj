@@ -65,7 +65,7 @@
       <DependentUpon>FilePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="IsObjectTypeConverter.cs" />
-    <Compile Include="NotifyPropertyChangedBase.cs" />
+    <Compile Include="NullableToBoolConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConverterChain.cs" />
     <Compile Include="ViewModel\FilePickerViewModel.cs" />
@@ -79,6 +79,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{6dcb1fe6-c826-4112-94cf-b6ece5fd8071}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
