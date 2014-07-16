@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WpfHelpers.Controls
 {
@@ -21,7 +22,7 @@ namespace WpfHelpers.Controls
 
         private void CheckPasteFormat(object sender, DataObjectPastingEventArgs e)
         {
-            var isText = e.SourceDataObject.GetDataPresent(System.Windows.DataFormats.Text, true);
+            var isText = e.SourceDataObject.GetDataPresent(DataFormats.Text, true);
             if (isText)
             {
                 var text = e.SourceDataObject.GetData(DataFormats.Text) as string;
@@ -33,7 +34,7 @@ namespace WpfHelpers.Controls
             e.CancelCommand();
         }
 
-        protected override void OnPreviewTextInput(System.Windows.Input.TextCompositionEventArgs e)
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             if (!CheckFormat(e.Text))
             {
