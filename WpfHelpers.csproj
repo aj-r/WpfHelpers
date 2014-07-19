@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToDoubleConverter.cs" />
+    <Compile Include="IntToBoolConverter.cs" />
+    <Compile Include="ObjectToBoolConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Controls\RestrictedValueTextBox.cs" />
@@ -66,6 +68,7 @@
     </Compile>
     <Compile Include="IsObjectTypeConverter.cs" />
     <Compile Include="NullableToBoolConverter.cs" />
+    <Compile Include="OneWayValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConverterChain.cs" />
     <Compile Include="ViewModel\FilePickerViewModel.cs" />

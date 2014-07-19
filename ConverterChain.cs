@@ -18,7 +18,7 @@ namespace WpfHelpers
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException("ConverterChain can only convert one-way.");
+            throw new NotSupportedException(GetType().Name + " can only convert one-way.");
         }
     }
 }

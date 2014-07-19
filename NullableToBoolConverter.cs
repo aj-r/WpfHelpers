@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace WpfHelpers
 {
@@ -10,16 +9,11 @@ namespace WpfHelpers
     /// <remarks>
     /// The value can be a reference type or a System.Nullable&lt;T&gt;.
     /// </remarks>
-    public class NullableToBoolConverter : IValueConverter
+    public class NullableToBoolConverter : OneWayValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value != null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException(GetType().Name + " can only convert one-way.");
         }
     }
 }
