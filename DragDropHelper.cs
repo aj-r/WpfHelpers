@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
@@ -33,6 +34,7 @@ namespace WpfHelpers
             if (!dragDefinitions.TryGetValue(dragSource, out dragDef))
             {
                 dragSource.MouseDown += dragSource_MouseDown;
+                dragSource.MouseMove += dragSource_MouseMove;
                 dragSource.MouseUp += dragSource_MouseUp;
                 dragDef = new DragDefinition
                 {
@@ -60,6 +62,7 @@ namespace WpfHelpers
             if (!dragDefinitions.Remove(dragSource))
                 return;
             dragSource.MouseDown -= dragSource_MouseDown;
+            dragSource.MouseMove -= dragSource_MouseMove;
             dragSource.MouseUp -= dragSource_MouseUp;
         }
 
@@ -105,7 +108,10 @@ namespace WpfHelpers
         private static void SetCurrentDragSource(UIElement dragSource)
         {
             if (currentDragDef != null)
-                currentDragDef.DragSource.MouseMove -= dragSource_MouseMove;
+            {
+                currentDragDef.StartDragTimer.Stop();
+                currentDragDef.TimerElapsed = false;
+            }
 
             DragDefinition dragDef;
             if (dragSource == null || !dragDefinitions.TryGetValue(dragSource, out dragDef))
@@ -114,7 +120,10 @@ namespace WpfHelpers
                 return;
             }
             currentDragDef = dragDef;
-            dragSource.MouseMove += dragSource_MouseMove;
+            // Only do the DragDrop if the user holds the mouse button down long enough.
+            currentDragDef.StartDragTimer = new Timer(300.0);
+            currentDragDef.StartDragTimer.Elapsed += StartDragTimer_Elapsed;
+            currentDragDef.StartDragTimer.Start();
         }
 
         private static void dragSource_MouseDown(object sender, MouseButtonEventArgs e)
@@ -135,20 +144,15 @@ namespace WpfHelpers
 
         private static void dragSource_MouseMove(object sender, MouseEventArgs e)
         {
-            var allowedEffects = currentDragDef.AllowedEffects;
-            /*bool ctrlKey = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-            if ((allowedEffects & DragDropEffects.Move) == DragDropEffects.None || ctrlKey)
-            {
-                // Control key is pressed or move is not allowed. Do copy/link.
-                allowedEffects &= ~DragDropEffects.Move;
-            }
-            else
-            {
-                // Control key not pressed. Do move.
-                allowedEffects &= (DragDropEffects.Move | DragDropEffects.Scroll);
-            }*/
-            DragDrop.DoDragDrop(currentDragDef.DragSource, currentDragDef.Data, allowedEffects);
-            e.Handled = true;
+            if (e.LeftButton != MouseButtonState.Pressed || currentDragDef == null || !currentDragDef.TimerElapsed)
+                return;
+            DragDrop.DoDragDrop(currentDragDef.DragSource, currentDragDef.Data, currentDragDef.AllowedEffects);
+        }
+
+        private static void StartDragTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            currentDragDef.TimerElapsed = true;
+            ((Timer)sender).Stop();
         }
 
         private static void dropTarget_DragOver(object sender, DragEventArgs e)
