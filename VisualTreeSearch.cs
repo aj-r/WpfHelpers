@@ -9,19 +9,33 @@ namespace WpfHelpers
     public static class VisualTreeSearch
     {
         /// <summary>
-        /// Does a search of the <see cref="System.Windows.DependencyObject"/>'s visual tree for all elements of the specefied type.
+        /// Finds all elements of the specified type in the <see cref="System.Windows.DependencyObject"/>'s visual tree using a breadth-first search.
         /// </summary>
         /// <typeparam name="T">The type of element to search for.</typeparam>
-        /// <param name="obj">The object to search in.</param>
-        /// <param name="depthFirst">True to do a depth-first search, false to do a breadth-first search. Default is breadth-first.</param>
-        /// <returns></returns>
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject obj, bool depthFirst = false) where T : DependencyObject
+        /// <param name="root">The object to search in.</param>
+        /// <returns>A list of elements that match the criteria.</returns>
+        public static IEnumerable<T> Find<T>(this DependencyObject root) where T : DependencyObject
         {
-            if (obj == null)
-                yield break;
+            return root.Find<T>(false, true);
+        }
+
+        /// <summary>
+        /// Finds all elements of the specified type in the <see cref="System.Windows.DependencyObject"/>'s visual tree.
+        /// </summary>
+        /// <typeparam name="T">The type of element to search for.</typeparam>
+        /// <param name="root">The object to search in.</param>
+        /// <returns>A list of elements that match the criteria.</returns>
+        public static IEnumerable<T> Find<T>(this DependencyObject root, bool depthFirst, bool includeRoot) where T : DependencyObject
+        {
+            if (includeRoot)
+            {
+                var depRoot = root as T;
+                if (depRoot != null)
+                    yield return depRoot;
+            }
 
             var searchObjects = new LinkedList<DependencyObject>();
-            searchObjects.AddFirst(obj);
+            searchObjects.AddFirst(root);
 
             while (searchObjects.First != null)
             {
@@ -39,6 +53,30 @@ namespace WpfHelpers
                 }
                 searchObjects.RemoveFirst();
             }
+        }
+
+        /// <summary>
+        /// Finds the first element of the specified type that matches the specified uid in the <see cref="System.Windows.DependencyObject"/>'s visual tree using a breadth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of element to search for.</typeparam>
+        /// <param name="root">The object to search in.</param>
+        /// <param name="uid">The UID of the object to find.</param>
+        /// <returns>A list of elements that match the criteria.</returns>
+        public static T FindByUid<T>(this DependencyObject root, string uid) where T : UIElement
+        {
+            return root.Find<T>().Where(o => o.Uid == uid).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Finds the first element of the specified type that matches the specified name in the <see cref="System.Windows.DependencyObject"/>'s visual tree using a breadth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of element to search for.</typeparam>
+        /// <param name="root">The object to search in.</param>
+        /// <param name="name">The name of the object to find.</param>
+        /// <returns>A list of elements that match the criteria.</returns>
+        public static T FindByName<T>(this DependencyObject root, string name) where T : FrameworkElement
+        {
+            return root.Find<T>().Where(o => o.Name == name).FirstOrDefault();
         }
     }
 }
