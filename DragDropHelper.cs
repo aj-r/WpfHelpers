@@ -25,9 +25,10 @@ namespace WpfHelpers
         /// <summary>
         /// Registers (or modifies the registration for) an object as a drag source, allowing the user to click and drag it around.
         /// </summary>
-        /// <param name="element">The element to make draggable</param>
+        /// <param name="dragSource">The element to make draggable</param>
         /// <param name="data">The data that will be dropped if the element is successfully dropped on the drop target.</param>
-        /// <param name="dragType">A name for the drag group that the drag source belongs to. The drag source can only be dropped onto a drop target with the same group name.</param>
+        /// <param name="groupName">A name for the drag group that the drag source belongs to. The drag source can only be dropped onto a drop target with the same group name.</param>
+        /// <param name="allowedEffects">The allowed effects for the drag-and-drop operation.</param>
         public static void RegisterDragSource(UIElement dragSource, object data, string groupName = null, DragDropEffects allowedEffects = DragDropEffects.All)
         {
             DragDefinition dragDef;
@@ -69,10 +70,11 @@ namespace WpfHelpers
         /// <summary>
         /// Registers (or modifies the registration for) the object as a drop target, allowing the user to drop draggable items on it.
         /// </summary>
-        /// <param name="element">The element to make draggable</param>
-        /// <param name="data">The data that will be dropped if the element is successfully dropped on the drop target.</param>
-        /// <param name="dragType">A name for the drag group that the </param>
-        public static void RegisterDropTarget(UIElement dropTarget, string groupName = null, DragDropEffects allowedEffects = DragDropEffects.All)
+        /// <param name="dropTarget">The element to make draggable</param>
+        /// <param name="groupName">A name for the drag group that the </param>
+        /// <param name="allowedEffects">The allowed effects for the drag-and-drop operation.</param>
+        /// <param name="allowSelfDrop">If the drop target is also a drag source, specifies whether the drop target is allowed to be dropped onto itself.</param>
+        public static void RegisterDropTarget(UIElement dropTarget, string groupName = null, DragDropEffects allowedEffects = DragDropEffects.All, bool allowSelfDrop = false)
         {
             dropTarget.AllowDrop = true;
             DropDefinition dropDef;
@@ -83,7 +85,8 @@ namespace WpfHelpers
                 {
                     DropTarget = dropTarget,
                     GroupName = groupName,
-                    AllowedEffects = allowedEffects
+                    AllowedEffects = allowedEffects,
+                    AllowSelfDrop = allowSelfDrop
                 };
                 dropDefinitions.Add(dropTarget, dropDef);
             }
@@ -179,7 +182,7 @@ namespace WpfHelpers
                 return;
             }
             // Don't use string.Equals() here because GroupName could be null
-            if (dropDef.GroupName != currentDragDef.GroupName)
+            if (dropDef.GroupName != currentDragDef.GroupName || (!dropDef.AllowSelfDrop && dropDef.DropTarget == currentDragDef.DragSource))
             {
                 // If the drag source is in a different group then don't allow drop.
                 e.Effects = DragDropEffects.None;

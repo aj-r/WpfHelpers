@@ -15,5 +15,6 @@ namespace WpfHelpers
         public UIElement DropTarget { get; set; }
         public DragDropEffects AllowedEffects { get; set; }
         public string GroupName { get; set; }
+        public bool AllowSelfDrop { get; set; }
     }
 }
