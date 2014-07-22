@@ -40,6 +40,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToDoubleConverter.cs" />
+    <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="IntToBoolConverter.cs" />
     <Compile Include="ObjectToBoolConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="ConverterChain.cs" />
     <Compile Include="ViewModel\FilePickerViewModel.cs" />
     <Compile Include="VisualTreeSearch.cs" />
+    <Compile Include="XmlSettingsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\FilePicker.xaml">
