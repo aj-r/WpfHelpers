@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using WpfHelpers.ViewModel;
 
 namespace WpfHelpers.Controls
