@@ -54,7 +54,6 @@ namespace WpfHelpers
               .GetCustomAttributes(typeof(DescriptionAttribute), false)
               .FirstOrDefault() as DescriptionAttribute;
 
-            var str = enumValue.ToString();
             return descriptionAttribute != null
               ? descriptionAttribute.Description
               : enumValue.ToString();
