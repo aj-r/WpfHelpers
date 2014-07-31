@@ -61,7 +61,7 @@ namespace WpfHelpers
         /// <typeparam name="T">The type of element to search for.</typeparam>
         /// <param name="root">The object to search in.</param>
         /// <param name="uid">The UID of the object to find.</param>
-        /// <returns>A list of elements that match the criteria.</returns>
+        /// <returns>The first element found that matches the criteria, or null if none was found.</returns>
         public static T FindByUid<T>(this DependencyObject root, string uid) where T : UIElement
         {
             return root.Find<T>().Where(o => o.Uid == uid).FirstOrDefault();
@@ -73,10 +73,29 @@ namespace WpfHelpers
         /// <typeparam name="T">The type of element to search for.</typeparam>
         /// <param name="root">The object to search in.</param>
         /// <param name="name">The name of the object to find.</param>
-        /// <returns>A list of elements that match the criteria.</returns>
+        /// <returns>The first element found that matches the criteria, or null if none was found.</returns>
         public static T FindByName<T>(this DependencyObject root, string name) where T : FrameworkElement
         {
             return root.Find<T>().Where(o => o.Name == name).FirstOrDefault();
         }
+
+        /// <summary>
+        /// Finds the first ancestor of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of element to search for.</typeparam>
+        /// <param name="element">The child object.</param>
+        /// <returns>The first ancestor found that matches the criteria, or null if none was found.</returns>
+        public static T Ancestor<T>(this UIElement element) where T : DependencyObject
+        {
+            DependencyObject parent = element;
+            while (parent != null)
+            {
+                T correctlyTyped = parent as T;
+                if (correctlyTyped != null)
+                    return correctlyTyped;
+                parent = VisualTreeHelper.GetParent(parent) as UIElement;
+            }
+            return null;
+        } 
     }
 }
