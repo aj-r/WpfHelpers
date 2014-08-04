@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BoolToDoubleConverter.cs" />
     <Compile Include="FileSettingsProvider.cs" />
+    <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
     <Compile Include="ObjectToBoolConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />
