@@ -24,6 +24,8 @@ namespace WpfHelpers
         /// </summary>
         /// <typeparam name="T">The type of element to search for.</typeparam>
         /// <param name="root">The object to search in.</param>
+        /// <param name="depthFirst">True to do a depth-first search; false to do a breadth-first search.</param>
+        /// <param name="includeRoot">True to include the root element in the search; false to exclude it.</param>
         /// <returns>A list of elements that match the criteria.</returns>
         public static IEnumerable<T> Find<T>(this DependencyObject root, bool depthFirst, bool includeRoot) where T : DependencyObject
         {
