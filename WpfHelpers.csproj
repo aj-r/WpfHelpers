@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToDoubleConverter.cs" />
+    <Compile Include="Controls\ButtonComboBox.xaml.cs">
+      <DependentUpon>ButtonComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
@@ -75,6 +78,10 @@
     <Compile Include="XmlSettingsProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ButtonComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\FilePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
