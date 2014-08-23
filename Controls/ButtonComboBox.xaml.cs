@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -13,15 +14,21 @@ namespace WpfHelpers.Controls
     [TemplatePart(Name = "PART_ItemsHost")]
     public partial class ButtonComboBox : ComboBox
     {
+        public static RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(ItemEventHandler), typeof(ButtonComboBox));
+
         /// <summary>
         /// Occurs when the button is clicked or a menu item is selected.
         /// </summary>
-        public event RoutedEventHandler Click;
-        public static RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ButtonComboBox));
+        public event ItemEventHandler Click
+        {
+            add { AddHandler(ClickEvent, value); }
+            remove { RemoveHandler(ClickEvent, value); }
+        }
 
         private ButtonBase button;
         private UIElement itemsHost;
-        private bool itemClicked;
+        private bool isItemClicked;
+        private object clickedItem;
 
         public ButtonComboBox()
         {
@@ -34,13 +41,16 @@ namespace WpfHelpers.Controls
             button.ClickMode = ClickMode;
             button.Click += button_Click;
             itemsHost = GetTemplateChild("PART_ItemsHost") as UIElement;
-            itemsHost.MouseUp += itemsHost_MouseUp;
+            itemsHost.PreviewMouseUp += itemsHost_PreviewMouseUp;
             base.OnApplyTemplate();
         }
 
         public static DependencyProperty ClickModeProperty = DependencyProperty.Register("ClickMode", typeof(ClickMode), typeof(ButtonComboBox),
             new PropertyMetadata(ClickMode.Release, ClickModeProperty_Changed));
 
+        /// <summary>
+        /// Gets or sets when the <see cref="WpfHelpers.Controls.ButtonComboBox.Click"/> event occurs.
+        /// </summary>
         public ClickMode ClickMode
         {
             get { return (ClickMode)GetValue(ClickModeProperty); }
@@ -49,29 +59,67 @@ namespace WpfHelpers.Controls
 
         private static void ClickModeProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var bcb = (ButtonComboBox)d;
-            if (bcb.button != null)
+            var bcb = d as ButtonComboBox;
+            if (bcb != null && bcb.button != null)
                 bcb.button.ClickMode = (ClickMode)e.NewValue;
         }
 
-        private void itemsHost_MouseUp(object sender, MouseButtonEventArgs e)
+        public static DependencyProperty AllowSelectedItemChangeProperty = DependencyProperty.Register("AllowSelectedItemChange", typeof(bool), typeof(ButtonComboBox),
+            new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets or sets whether the user is allowed to change the selected item.
+        /// </summary>
+        public bool AllowSelectedItemChange
         {
-            itemClicked = true;
+            get { return (bool)GetValue(AllowSelectedItemChangeProperty); }
+            set { SetValue(AllowSelectedItemChangeProperty, value); }
+        }
+
+        private bool ignoreSelectionChanged;
+
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            if (ignoreSelectionChanged)
+                return;
+            if (!AllowSelectedItemChange)
+            {
+                if (e.RemovedItems.Count > 0)
+                {
+                    ignoreSelectionChanged = true;
+                    SelectedItem = e.RemovedItems[0];
+                    ignoreSelectionChanged = false;
+                }
+                return;
+            }
+            base.OnSelectionChanged(e);
+        }
+
+        private void itemsHost_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var originalSource = e.OriginalSource as FrameworkElement;
+            if (originalSource == null)
+                return;
+            var cbItem = originalSource.Ancestor<ComboBoxItem>();
+            if (cbItem == null)
+                return;
+            clickedItem = (ItemsSource != null) ? cbItem.DataContext : cbItem;
+            isItemClicked = true;
         }
 
         protected override void OnDropDownClosed(EventArgs e)
         {
             base.OnDropDownClosed(e);
-            if (itemClicked)
+            if (isItemClicked)
             {
-                RaiseClick();
-                itemClicked = false;
+                RaiseClick(clickedItem);
+                isItemClicked = false;
             }
         }
 
-        protected void RaiseClick()
+        protected void RaiseClick(object item)
         {
-            OnClick(new RoutedEventArgs(ClickEvent));
+            OnClick(new ItemEventArgs(item, ClickEvent));
         }
 
         protected virtual void OnClick(RoutedEventArgs e)
@@ -83,7 +131,7 @@ namespace WpfHelpers.Controls
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            RaiseClick();
+            RaiseClick(SelectedItem);
         }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="Controls\ButtonComboBox.xaml.cs">
       <DependentUpon>ButtonComboBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ItemEventArgs.cs" />
     <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
