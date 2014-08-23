@@ -1,19 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:WpfHelpers.Controls">
+    <BooleanToVisibilityConverter x:Key="WpfHelpers_BooleanToVisibilityConverter" />
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Black" />
     <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="Transparent" />
-    <Color x:Key="ControlLightColor">White</Color>
-    <Color x:Key="ControlMediumColor">#FFE0E0E0</Color>
-    <Color x:Key="ControlMouseOverColor">#FFD5D5D5</Color>
-    <Color x:Key="ControlPressedColor">#FFCCCCCC</Color>
-    <Color x:Key="DisabledControlDarkColor">#FFE9E9E9</Color>
-    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-    <Color x:Key="BorderMediumColor">#FF888888</Color>
-    <Color x:Key="BorderDarkColor">#FF444444</Color>
-    <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
-    <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
     <Color x:Key="GlyphColor">#FF444444</Color>
-    <Style BasedOn="{StaticResource {x:Type TextBox}}"
+    <Style x:Key="SuccessMessage" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#00BB00" />
+    </Style>
+    <Style x:Key="ErrorMessage" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#DD0000" />
+    </Style>
+    <Style x:Name="TextBlockBox"
+           BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="{x:Type TextBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -41,13 +40,48 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="SuccessMessage" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#00BB00" />
+    <Style TargetType="c:DropDownButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:DropDownButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="PART_Button"
+                                Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}}"
+                                CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}}"
+                                CommandTarget="{Binding CommandTarget, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ContentPresenter />
+                        </Button>
+                        <ToggleButton x:Name="PART_DropDownButton"
+                                      Grid.Column="1"
+                                      Focusable="false"
+                                      ClickMode="Press"
+                                      IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Visibility="{Binding IsDropDownEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource WpfHelpers_BooleanToVisibilityConverter}}"
+                                      Margin="1,0,0,0">
+                            <Path HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="M 0 0 L 4 4 L 8 0 Z" >
+                                <Path.Fill>
+                                    <SolidColorBrush Color="{DynamicResource GlyphColor}"/>
+                                </Path.Fill>
+                            </Path>
+                        </ToggleButton>
+                        <Popup Placement="Bottom"
+                               PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                               IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                               PopupAnimation="Slide"
+                               FocusManager.IsFocusScope="False">
+                            <Border x:Name="PART_DropDownHost" BorderBrush="#FF444444" BorderThickness="1" Background="White">
+                                
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    <Style x:Key="ErrorMessage" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="#DD0000" />
-    </Style>
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/WpfHelpers;component/Controls/ButtonComboBox.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
