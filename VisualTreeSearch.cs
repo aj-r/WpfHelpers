@@ -87,15 +87,15 @@ namespace WpfHelpers
         /// <typeparam name="T">The type of element to search for.</typeparam>
         /// <param name="element">The child object.</param>
         /// <returns>The first ancestor found that matches the criteria, or null if none was found.</returns>
-        public static T Ancestor<T>(this UIElement element) where T : DependencyObject
+        public static T Ancestor<T>(this DependencyObject element) where T : DependencyObject
         {
-            DependencyObject parent = element;
-            while (parent != null)
+            while (element != null)
             {
-                T correctlyTyped = parent as T;
+                DependencyObject parent = VisualTreeHelper.GetParent(element);
+                var correctlyTyped = parent as T;
                 if (correctlyTyped != null)
                     return correctlyTyped;
-                parent = VisualTreeHelper.GetParent(parent) as UIElement;
+                element = parent;
             }
             return null;
         } 

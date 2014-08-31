@@ -49,9 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToDoubleConverter.cs" />
+    <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
+    <Compile Include="NumberToStringConverter.cs" />
     <Compile Include="ObjectToBoolConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />
     <Compile Include="Command.cs" />
