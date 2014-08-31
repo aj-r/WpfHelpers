@@ -11,7 +11,7 @@
     <Style x:Key="ErrorMessage" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="#DD0000" />
     </Style>
-    <Style x:Name="TextBlockBox"
+    <Style x:Key="TextBlockBox"
            BasedOn="{StaticResource {x:Type TextBox}}"
            TargetType="{x:Type TextBox}">
         <Setter Property="Template">
