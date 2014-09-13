@@ -178,21 +178,15 @@ namespace WpfHelpers.Controls
         private static void IsDropDownOpenProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ddb = d as DropDownButton;
-            if (ddb.closingDebounce)
+            if (ddb.closingDebounce || !ddb.IsDropDownEnabled)
+            {
+                ddb.IsDropDownOpen = false;
                 return;
+            }
             if ((bool)e.NewValue)
-            {
-                if (!ddb.IsDropDownEnabled)
-                {
-                    ddb.IsDropDownOpen = false;
-                    return;
-                }
                 ddb.OnDropDownOpened(new RoutedEventArgs(DropDownOpenedEvent));
-            }
             else
-            {
                 ddb.OnDropDownClosed(new RoutedEventArgs(DropDownClosedEvent));
-            }
         }
 
         public static readonly DependencyProperty IsDropDownEnabledProperty = DependencyProperty.Register("IsDropDownEnabled", typeof(bool), typeof(DropDownButton),
