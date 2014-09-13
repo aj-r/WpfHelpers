@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                    xmlns:h="clr-namespace:WpfHelpers"
                     xmlns:c="clr-namespace:WpfHelpers.Controls">
     <BooleanToVisibilityConverter x:Key="WpfHelpers_BooleanToVisibilityConverter" />
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Black" />
@@ -53,10 +56,14 @@
                                 Command="{Binding Command, RelativeSource={RelativeSource TemplatedParent}}"
                                 CommandParameter="{Binding CommandParameter, RelativeSource={RelativeSource TemplatedParent}}"
                                 CommandTarget="{Binding CommandTarget, RelativeSource={RelativeSource TemplatedParent}}">
+                            <i:Interaction.Triggers>
+                                <h:ScrollTrigger>
+                                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=popup}" PropertyName="IsOpen" Value="False" />
+                                </h:ScrollTrigger>
+                            </i:Interaction.Triggers>
                             <ContentPresenter />
                         </Button>
-                        <ToggleButton x:Name="PART_DropDownButton"
-                                      Grid.Column="1"
+                        <ToggleButton Grid.Column="1"
                                       Focusable="false"
                                       ClickMode="Press"
                                       IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
@@ -71,13 +78,12 @@
                             </Path>
                         </ToggleButton>
                         <Popup Placement="Bottom"
+                               Name="popup"
                                PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                               PopupAnimation="Slide"
-                               FocusManager.IsFocusScope="False">
-                            <Border x:Name="PART_DropDownHost" BorderBrush="#FF444444" BorderThickness="1" Background="White">
-                                
-                            </Border>
+                               StaysOpen="False"
+                               PopupAnimation="Slide">
+                            <Border x:Name="PART_DropDownHost" BorderBrush="#FF444444" BorderThickness="1" Background="White" />
                         </Popup>
                     </Grid>
                 </ControlTemplate>

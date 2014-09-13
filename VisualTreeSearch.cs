@@ -91,13 +91,32 @@ namespace WpfHelpers
         {
             while (element != null)
             {
-                DependencyObject parent = VisualTreeHelper.GetParent(element);
+                DependencyObject parent = VisualTreeHelper.GetParent(element) ?? LogicalTreeHelper.GetParent(element);
                 var correctlyTyped = parent as T;
                 if (correctlyTyped != null)
                     return correctlyTyped;
                 element = parent;
             }
             return null;
-        } 
+        }
+
+        /// <summary>
+        /// Detemines whether the specified element has the specified ancestor.
+        /// </summary>
+        /// <typeparam name="T">The type of element to search for.</typeparam>
+        /// <param name="element">The child object.</param>
+        /// <param name="ancestor">The ancestor to look for.</param>
+        /// <returns>True if the specified element has the specified ancestor; false if not.</returns>
+        public static bool HasAncestor(this DependencyObject element, DependencyObject ancestor)
+        {
+            while (element != null)
+            {
+                DependencyObject parent = VisualTreeHelper.GetParent(element) ?? LogicalTreeHelper.GetParent(element);
+                if (parent == ancestor)
+                    return true;
+                element = parent;
+            }
+            return false;
+        }
     }
 }

@@ -10,42 +10,61 @@ using System.Windows.Threading;
 namespace WpfHelpers.Controls
 {
     [TemplatePart(Name = "PART_Button")]
-    [TemplatePart(Name = "PART_DropDownButton")]
     [TemplatePart(Name = "PART_DropDownHost")]
     public class DropDownButton : ContentControl, ICommandSource
     {
         private bool closingDebounce;
         private DispatcherTimer debounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(10) };
-        private IAddChild dropDownHost;
+        private UIElement dropDownHost;
 
         public DropDownButton()
         {
-            Binding binding = new Binding("DropDown.IsOpen");
-            binding.Source = this;
-            binding.Mode = BindingMode.TwoWay;
-            SetBinding(IsDropDownOpenProperty, binding);
-
             debounceTimer.Tick += debounceTimer_Tick;
         }
-
+        
         public override void OnApplyTemplate()
         {
             var button = GetTemplateChild("PART_Button") as ButtonBase;
             if (button != null)
                 button.Click += button_Click;
-            var dropDownButton = GetTemplateChild("PART_DropDownButton") as UIElement;
-            if (dropDownButton != null)
-                dropDownButton.PreviewMouseDown += toggle_PreviewMouseDown;
-            dropDownHost = GetTemplateChild("PART_DropDownHost") as IAddChild;
+            dropDownHost = GetTemplateChild("PART_DropDownHost") as UIElement;
             if (dropDownHost != null && DropDown != null && !(DropDown is ContextMenu))
-                dropDownHost.AddChild(DropDown);
+            {
+                // Don't let mouse events for the drop-down bubble up to parent controls.
+                dropDownHost.MouseDown += EatMouseEvent;
+                dropDownHost.MouseUp += EatMouseEvent;
+                dropDownHost.MouseEnter += EatMouseEvent;
+                dropDownHost.MouseLeave += EatMouseEvent;
+                dropDownHost.MouseMove += EatMouseEvent;
+                var dropDownHostContainer = dropDownHost as IAddChild;
+                if (dropDownHostContainer != null)
+                    dropDownHostContainer.AddChild(DropDown);
+            }
+
+            var window = this.Ancestor<Window>();
+            if (window != null)
+                window.PreviewMouseDown += window_PreviewMouseDown;
+
             base.OnApplyTemplate();
         }
 
-        private void debounceTimer_Tick(object sender, EventArgs e)
+        private void EatMouseEvent(object sender, MouseButtonEventArgs e)
         {
-            closingDebounce = false;
-            debounceTimer.Stop();
+            e.Handled = true;
+        }
+
+        private void EatMouseEvent(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!IsDropDownOpen)
+                return;
+            if (((DependencyObject)e.OriginalSource).HasAncestor(this))
+                return;
+            IsDropDownOpen = false;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -53,10 +72,10 @@ namespace WpfHelpers.Controls
             OnClick(new RoutedEventArgs(ClickEvent));
         }
 
-        private void toggle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void debounceTimer_Tick(object sender, EventArgs e)
         {
-            if (closingDebounce)
-                e.Handled = true;
+            closingDebounce = false;
+            debounceTimer.Stop();
         }
 
         public static readonly DependencyProperty ClickModeProperty = DependencyProperty.Register("ClickMode", typeof(ClickMode), typeof(DropDownButton),
@@ -123,19 +142,19 @@ namespace WpfHelpers.Controls
         {
             var ddb = (DropDownButton)d;
             var cm = e.NewValue as ContextMenu;
-            var dropDownHostElement = ddb.dropDownHost as UIElement;
             if (cm != null)
             {
                 cm.PlacementTarget = ddb;
                 cm.Placement = PlacementMode.Bottom;
-                if (dropDownHostElement != null)
-                    dropDownHostElement.Visibility = Visibility.Hidden;
+                if (ddb.dropDownHost != null)
+                    ddb.dropDownHost.Visibility = Visibility.Hidden;
             }
             else if (ddb.dropDownHost != null)
             {
-                ddb.dropDownHost.AddChild(e.NewValue);
-                if (dropDownHostElement != null)
-                    dropDownHostElement.Visibility = Visibility.Visible;
+                var dropDownHostContainer = ddb.dropDownHost as IAddChild;
+                if (dropDownHostContainer != null)
+                    dropDownHostContainer.AddChild(ddb.DropDown);
+                ddb.dropDownHost.Visibility = Visibility.Visible;
             }
         }
 
@@ -159,10 +178,15 @@ namespace WpfHelpers.Controls
         private static void IsDropDownOpenProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ddb = d as DropDownButton;
+            if (ddb.closingDebounce)
+                return;
             if ((bool)e.NewValue)
             {
                 if (!ddb.IsDropDownEnabled)
+                {
                     ddb.IsDropDownOpen = false;
+                    return;
+                }
                 ddb.OnDropDownOpened(new RoutedEventArgs(DropDownOpenedEvent));
             }
             else
@@ -225,7 +249,6 @@ namespace WpfHelpers.Controls
         {
             if (e.Handled)
                 return;
-            IsDropDownOpen = false;
             RaiseEvent(e);
         }
 
@@ -239,6 +262,5 @@ namespace WpfHelpers.Controls
             add { AddHandler(ClickEvent, value); }
             remove { RemoveHandler(ClickEvent, value); }
         }
-
     }
 }
