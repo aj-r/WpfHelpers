@@ -8,25 +8,32 @@ namespace WpfHelpers
     /// </summary>
     public class Command : ICommand
     {
-        Action action;
+        Action execute;
+        Func<bool> canExecute;
 
-        public Command(Action a)
+        public Command(Action execute, Func<bool> canExecute = null)
         {
-            action = a;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
         #region ICommand Members
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return (canExecute != null) ? canExecute() : true;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public void Execute(object parameter)
         {
-            action();
+            if (execute != null)
+                execute();
         }
 
         #endregion
@@ -37,25 +44,32 @@ namespace WpfHelpers
     /// </summary>
     public class Command<T> : ICommand
     {
-        Action<T> action;
+        Action<T> execute;
+        Func<bool> canExecute;
 
-        public Command(Action<T> a)
+        public Command(Action<T> execute, Func<bool> canExecute = null)
         {
-            action = a;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
         #region ICommand Members
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return (canExecute != null) ? canExecute() : true;
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public void Execute(object parameter)
         {
-            action((T)parameter);
+            if (execute != null)
+                execute((T)parameter);
         }
 
         #endregion
