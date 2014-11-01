@@ -50,11 +50,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoolToStringConverter.cs" />
     <Compile Include="BoolToDoubleConverter.cs" />
+    <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
+    <Compile Include="LinearInterpolationConverter.cs" />
+    <Compile Include="MultiplyConverter.cs" />
     <Compile Include="NumberToStringConverter.cs" />
     <Compile Include="ObjectToBoolConverter.cs" />
     <Compile Include="InverseBooleanConverter.cs" />

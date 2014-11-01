@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace WpfHelpers
 {
+    /// <summary>
+    /// Converts a numeric value to and from a string.
+    /// </summary>
     public class NumberToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

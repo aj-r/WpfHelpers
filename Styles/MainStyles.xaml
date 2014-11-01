@@ -4,7 +4,7 @@
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
                     xmlns:h="clr-namespace:WpfHelpers"
                     xmlns:c="clr-namespace:WpfHelpers.Controls">
-    <BooleanToVisibilityConverter x:Key="WpfHelpers_BooleanToVisibilityConverter" />
+    <h:BoolToVisibilityConverter x:Key="WpfHelpers_BoolToVisibilityConverter" />
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Black" />
     <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="Transparent" />
     <Color x:Key="GlyphColor">#FF444444</Color>
@@ -67,7 +67,7 @@
                                       Focusable="false"
                                       ClickMode="Press"
                                       IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                      Visibility="{Binding IsDropDownEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource WpfHelpers_BooleanToVisibilityConverter}}"
+                                      Visibility="{Binding IsDropDownEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource WpfHelpers_BoolToVisibilityConverter}}"
                                       Margin="1,0,0,0">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"

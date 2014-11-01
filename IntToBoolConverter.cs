@@ -7,6 +7,7 @@ namespace WpfHelpers
     /// <summary>
     /// Converts an integer to a boolean value. 0 converts to false, all other numbers convert to true.
     /// </summary>
+    [ValueConversion(typeof(int), typeof(bool))]
     public class IntToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

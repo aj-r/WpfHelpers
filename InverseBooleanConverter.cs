@@ -4,6 +4,10 @@ using System.Windows.Data;
 
 namespace WpfHelpers
 {
+    /// <summary>
+    /// Converts a boolean value to its inverse.
+    /// </summary>
+    [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

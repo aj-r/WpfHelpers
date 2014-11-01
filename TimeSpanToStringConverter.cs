@@ -4,6 +4,10 @@ using System.Windows.Data;
 
 namespace WpfHelpers
 {
+    /// <summary>
+    /// Converts a <see cref="System.TimeSpan"/> to a string displaying the most significant non-zero component of the timespan.
+    /// </summary>
+    [ValueConversion(typeof(TimeSpan), typeof(string))]
     public class TimeSpanToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

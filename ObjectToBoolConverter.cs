@@ -7,6 +7,7 @@ namespace WpfHelpers
     /// <summary>
     /// Converts an object reference to a boolean value: true if the object references are equal; false if they are not.
     /// </summary>
+    [ValueConversion(typeof(object), typeof(bool), ParameterType = typeof(object))]
     public class ObjectToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
