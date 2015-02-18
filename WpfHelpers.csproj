@@ -54,6 +54,7 @@
     <Compile Include="BoolToDoubleConverter.cs" />
     <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
+    <Compile Include="EnumToStringConverter.cs" />
     <Compile Include="FileSettingsProvider.cs" />
     <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
