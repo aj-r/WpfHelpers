@@ -59,6 +59,8 @@
     <Compile Include="FocusHelper.cs" />
     <Compile Include="IntToBoolConverter.cs" />
     <Compile Include="LinearInterpolationConverter.cs" />
+    <Compile Include="AndConverter.cs" />
+    <Compile Include="OrConverter.cs" />
     <Compile Include="MultiplyConverter.cs" />
     <Compile Include="NumberToStringConverter.cs" />
     <Compile Include="ObjectToBoolConverter.cs" />
