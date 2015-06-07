@@ -79,8 +79,7 @@ namespace WpfHelpers
 
         public bool CanExecute(object parameter)
         {
-            if (!(parameter is T))
-                throw new ArgumentException("Command parameter must be of type " + typeof(T).FullName);
+            ValidateParameterType(parameter);
 
             return (canExecute != null) ? canExecute((T)parameter) : true;
         }
@@ -93,13 +92,23 @@ namespace WpfHelpers
 
         public void Execute(object parameter)
         {
-            if (!(parameter is T))
-                throw new ArgumentException("Command parameter must be of type " + typeof(T).FullName);
+            ValidateParameterType(parameter);
 
             if (execute != null)
                 execute((T)parameter);
         }
 
         #endregion
+
+        private static void ValidateParameterType(object parameter)
+        {
+            if (parameter is T)
+                return;
+            var type = typeof(T);
+            if (parameter == null && (type.IsClass || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))))
+                return;
+
+            throw new ArgumentException("Command parameter must be of type " + type.FullName);
+        }
     }
 }
