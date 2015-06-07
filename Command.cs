@@ -8,10 +8,28 @@ namespace WpfHelpers
     /// </summary>
     public class Command : ICommand
     {
-        Action execute;
-        Func<bool> canExecute;
+        #region Static Methods
 
-        public Command(Action execute, Func<bool> canExecute = null)
+        public Command Create(Action execute, Func<bool> canExecute = null)
+        {
+            return new Command(execute, canExecute);
+        }
+
+        public Command<T> Create<T>(Action<T> execute, Func<T, bool> canExecute = null)
+        {
+            return new Command<T>(execute, canExecute);
+        }
+
+        #endregion
+
+        private readonly Action execute;
+        private readonly Func<bool> canExecute;
+
+        public Command(Action execute)
+            : this(execute, null)
+        { }
+
+        public Command(Action execute, Func<bool> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -44,10 +62,14 @@ namespace WpfHelpers
     /// </summary>
     public class Command<T> : ICommand
     {
-        Action<T> execute;
-        Func<bool> canExecute;
+        private readonly Action<T> execute;
+        private readonly Func<T, bool> canExecute;
 
-        public Command(Action<T> execute, Func<bool> canExecute = null)
+        public Command(Action<T> execute)
+            : this(execute, null)
+        { }
+
+        public Command(Action<T> execute, Func<T, bool> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -57,7 +79,10 @@ namespace WpfHelpers
 
         public bool CanExecute(object parameter)
         {
-            return (canExecute != null) ? canExecute() : true;
+            if (!(parameter is T))
+                throw new ArgumentException("Command parameter must be of type " + typeof(T).FullName);
+
+            return (canExecute != null) ? canExecute((T)parameter) : true;
         }
 
         public event EventHandler CanExecuteChanged
@@ -68,6 +93,9 @@ namespace WpfHelpers
 
         public void Execute(object parameter)
         {
+            if (!(parameter is T))
+                throw new ArgumentException("Command parameter must be of type " + typeof(T).FullName);
+
             if (execute != null)
                 execute((T)parameter);
         }
