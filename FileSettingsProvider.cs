@@ -9,12 +9,17 @@ using System.Text.RegularExpressions;
 
 namespace WpfHelpers
 {
+    /// <summary>
+    /// An abstract SettingsProvider class that allows you to control where the settings file is saved.
+    /// </summary>
     public abstract class FileSettingsProvider : SettingsProvider
     {
-        protected Dictionary<string, string> ReplaceTokens { get; private set; }
-        private string defaultAppName;
+        private readonly string defaultAppName;
         private string location;
 
+        /// <summary>
+        /// Creates a new <see cref="FileSettingsProvider"/> instance.
+        /// </summary>
         public FileSettingsProvider()
         {
             ReplaceTokens = new Dictionary<string, string>();
@@ -23,6 +28,11 @@ namespace WpfHelpers
             ApplicationName = defaultAppName;
         }
 
+        protected Dictionary<string, string> ReplaceTokens { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the name of the currently running application.
+        /// </summary>
         public override sealed string ApplicationName
         {
             get
@@ -37,10 +47,7 @@ namespace WpfHelpers
             }
             set
             {
-                if (ReplaceTokens.ContainsKey("AppName"))
-                    ReplaceTokens["AppName"] = defaultAppName;
-                else
-                    ReplaceTokens.Add("AppName", defaultAppName);
+                ReplaceTokens["AppName"] = value;
             }
         }
 
@@ -61,6 +68,11 @@ namespace WpfHelpers
             }
         }
         
+        /// <summary>
+        /// Initializes the provider.
+        /// </summary>
+        /// <param name="name">The firendly name of the provider.</param>
+        /// <param name="config">A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</param>
         public override void Initialize(string name, NameValueCollection config)
         {
             base.Initialize(ApplicationName, config);
