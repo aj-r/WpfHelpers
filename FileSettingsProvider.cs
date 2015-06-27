@@ -14,7 +14,7 @@ namespace WpfHelpers
     /// </summary>
     public abstract class FileSettingsProvider : SettingsProvider
     {
-        private readonly string defaultAppName;
+        private string applicationName;
         private string location;
 
         /// <summary>
@@ -24,8 +24,7 @@ namespace WpfHelpers
         {
             ReplaceTokens = new Dictionary<string, string>();
             var entryAssembly = Assembly.GetEntryAssembly();
-            defaultAppName = entryAssembly.GetName().Name;
-            ApplicationName = defaultAppName;
+            applicationName = entryAssembly.GetName().Name;
         }
 
         protected Dictionary<string, string> ReplaceTokens { get; private set; }
@@ -33,28 +32,16 @@ namespace WpfHelpers
         /// <summary>
         /// Gets or sets the name of the currently running application.
         /// </summary>
-        public override sealed string ApplicationName
+        public override string ApplicationName
         {
-            get
-            {
-                string appName;
-                if (!ReplaceTokens.TryGetValue("AppName", out appName))
-                {
-                    ReplaceTokens.Add("AppName", defaultAppName);
-                    appName = defaultAppName;
-                }
-                return appName;
-            }
-            set
-            {
-                ReplaceTokens["AppName"] = value;
-            }
+            get { return applicationName; }
+            set { }
         }
 
         /// <summary>
         /// Gets or sets the settings storage location.
         /// </summary>
-        public string Location
+        public virtual string Location
         {
             get
             {
@@ -75,10 +62,15 @@ namespace WpfHelpers
         /// <param name="config">A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</param>
         public override void Initialize(string name, NameValueCollection config)
         {
-            base.Initialize(ApplicationName, config);
+            base.Initialize(name ?? Name ?? "FileSettingsProvider", config);
             if (config == null)
                 return;
-            string location = config["location"];
+
+            string appName = config["ApplicationName"];
+            if (appName != null)
+                applicationName = appName;
+
+            string location = config["Location"];
             if (location != null)
             {
                 Regex regex = new Regex(@"{(\w+)}");
@@ -93,6 +85,8 @@ namespace WpfHelpers
                     string replacement;
                     if (ReplaceTokens.TryGetValue(key, out replacement))
                         return replacement;
+                    else if (key == "AppName")
+                        return ApplicationName;
                     return m.Value;
                 });
                 Location = location;

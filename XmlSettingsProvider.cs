@@ -9,8 +9,25 @@ using System.Xml.Serialization;
 
 namespace WpfHelpers
 {
+    /// <summary>
+    /// A FileSettingProvider that stores settings in XML format.
+    /// </summary>
     public class XmlSettingsProvider : FileSettingsProvider
     {
+        /// <summary>
+        /// Gets the provider name.
+        /// </summary>
+        public override string Name
+        {
+            get { return "XmlSettingsProvider"; }
+        }
+
+        /// <summary>
+        /// Gets the property values from storage.
+        /// </summary>
+        /// <param name="context">The settings context.</param>
+        /// <param name="collection">A collection containing the names of the settings to get.</param>
+        /// <returns>A collection containing the setting values.</returns>
         public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection collection)
         {
             var values = new SettingsPropertyValueCollection();
@@ -56,6 +73,11 @@ namespace WpfHelpers
             return values;
         }
 
+        /// <summary>
+        /// Saves the settings to file.
+        /// </summary>
+        /// <param name="context">The settings context.</param>
+        /// <param name="collection">A collection containing the setting values.</param>
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
         {
             var dir = Path.GetDirectoryName(Location);
