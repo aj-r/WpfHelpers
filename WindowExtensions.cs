@@ -6,6 +6,9 @@ using System.Windows.Interop;
 // From http://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf
 namespace Sharp.Utils.Wpf
 {
+    /// <summary>
+    /// Contains extenstion methods for showing or hiding certain buttons on a window.
+    /// </summary>
     public static class WindowExtensions
     {
         // from winuser.h

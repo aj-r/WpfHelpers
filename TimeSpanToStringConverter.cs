@@ -7,6 +7,7 @@ namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Converts a <see cref="System.TimeSpan"/> to a string displaying the most significant non-zero component of the timespan.
+    /// This converter is only designed to work with English cultures.
     /// </summary>
     [ValueConversion(typeof(TimeSpan), typeof(string))]
     public class TimeSpanToStringConverter : IValueConverter
@@ -22,6 +23,14 @@ namespace Sharp.Utils.Wpf
 
         private static readonly Regex regex = new Regex(@"([0-9]+) *(.+)");
 
+        /// <summary>
+        /// Converts a value.
+        /// </summary>
+        /// <param name="value">The value produced by the binding source.</param>
+        /// <param name="targetType">The type of the binding target property.</param>
+        /// <param name="parameter">The converter parameter to use.</param>
+        /// <param name="culture">The culture to use in the converter.</param>
+        /// <returns>The converted value.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is TimeSpan))
@@ -67,6 +76,14 @@ namespace Sharp.Utils.Wpf
             }
         }
 
+        /// <summary>
+        /// Converts a value.
+        /// </summary>
+        /// <param name="value">The value that is produced by the binding target.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="parameter">The converter parameter to use.</param>
+        /// <param name="culture">The culture to use in the converter.</param>
+        /// <returns>The converted value.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is string))
@@ -126,17 +143,45 @@ namespace Sharp.Utils.Wpf
             return string.Concat(value, " ", componentName);
         }
 
+        /// <summary>
+        /// The <see cref="DateTimeComponent"/> of the TimeSpan to display. If this is not set, then the most significant non-zero component of the TimeSpan will be displayed.
+        /// </summary>
         public DateTimeComponent Component { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the abbreviated version of the TimeSpan component should be shown (e.g. "h" instead of "hours").
+        /// </summary>
         public bool Abbreviate { get; set; }
     }
 
+    /// <summary>
+    /// Represents a component of a date or time.
+    /// </summary>
     public enum DateTimeComponent
     {
+        /// <summary>
+        /// Indicates that no DateTimeComponent is specified.
+        /// </summary>
         None,
+        /// <summary>
+        /// The day component of a time span.
+        /// </summary>
         Day,
+        /// <summary>
+        /// The hour component of a time span.
+        /// </summary>
         Hour,
+        /// <summary>
+        /// The minute component of a time span.
+        /// </summary>
         Minute,
+        /// <summary>
+        /// The second component of a time span.
+        /// </summary>
         Second,
+        /// <summary>
+        /// The millisecond component of a time span.
+        /// </summary>
         Millisecond
     }
 }

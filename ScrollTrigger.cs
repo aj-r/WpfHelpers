@@ -8,8 +8,14 @@ using System.Windows.Media;
 
 namespace Sharp.Utils.Wpf
 {
+    /// <summary>
+    /// Invokes actions when the scroll position changes.
+    /// </summary>
     public class ScrollTrigger : TriggerBase<FrameworkElement>
     {
+        /// <summary>
+        /// Called after the trigger is attached to an AssociatedObject.
+        /// </summary>
         protected override void OnAttached()
         {
             AssociatedObject.Loaded += new RoutedEventHandler(AssociatedObject_Loaded);

@@ -6,14 +6,26 @@ namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Calculates a <see cref="System.Double"/> value by linearly interpolating between two numeric values.
-    /// </summary>
-    /// <remarks>
     /// This value converter requires 3 input values. The first two inputs are the starting and ending values, 
     /// and the third input is the scale (0-1). A scale of less than 0 or greater than 1 results in a value
     /// outside of the first two input values.
-    /// </remarks>
+    /// </summary>
     public class LinearInterpolationConverter : OneWayMultiValueConverter
     {
+        /// <summary>
+        /// Converts source values to a value for the binding target. The data binding
+        /// engine calls this method when it propagates the values from source bindings
+        /// to the binding target.
+        /// </summary>
+        /// <param name="values">
+        /// The values produced by the binding source. The first two inputs are the starting and ending values, 
+        /// and the third input is the scale (0-1). A scale of less than 0 or greater than 1 results in a value
+        /// outside of the first two input values.
+        /// </param>
+        /// <param name="targetType">The type of the binding target property.</param>
+        /// <param name="parameter">The converter parameter to use.</param>
+        /// <param name="culture">The culture to use in the converter.</param>
+        /// <returns>The converted value.</returns>
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values.Length != 3)

@@ -12,35 +12,18 @@ namespace Sharp.Utils.Wpf.ViewModel
     {
         private string fileName;
 
-        public string FileName {
-            get
-            {
-                return fileName;
-            }
-            set
-            {
-                if (fileName == value)
-                    return;
-                fileName = value;
-                RaisePropertyChanged(() => FileName);
-            }
+        public string FileName
+        {
+            get { return fileName; }
+            set { SetValue(ref fileName, value); }
         }
 
         private FilePickerMode mode;
 
         public FilePickerMode Mode
         {
-            get
-            {
-                return mode;
-            }
-            set
-            {
-                if (mode == value)
-                    return;
-                mode = value;
-                RaisePropertyChanged(() => Mode);
-            }
+            get { return mode; }
+            set { SetValue(ref mode, value); }
         }
 
         public ICommand SelectFileCommand

@@ -19,7 +19,7 @@ namespace Sharp.Utils.Wpf
         /// <summary>
         /// Converts a value.
         /// </summary>
-        /// <param name="values">The values produced by the binding source.</param>
+        /// <param name="value">The value produced by the binding source.</param>
         /// <param name="targetType">The type of the binding target property.</param>
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>

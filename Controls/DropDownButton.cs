@@ -9,6 +9,9 @@ using System.Windows.Threading;
 
 namespace Sharp.Utils.Wpf.Controls
 {
+    /// <summary>
+    /// A button that opens a drop-down panel when clicked. Similar to a combo box, but has no selected item.
+    /// </summary>
     [TemplatePart(Name = "PART_Button")]
     [TemplatePart(Name = "PART_DropDownHost")]
     public class DropDownButton : ContentControl, ICommandSource
@@ -17,11 +20,19 @@ namespace Sharp.Utils.Wpf.Controls
         private DispatcherTimer debounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(10) };
         private UIElement dropDownHost;
 
+        /// <summary>
+        /// Creates a new <see cref="DropDownButton"/> instance.
+        /// </summary>
         public DropDownButton()
         {
             debounceTimer.Tick += debounceTimer_Tick;
         }
-        
+
+        #region Event Handlers
+
+        /// <summary>
+        /// Invoked whenever application code or internal processes call System.Windows.FrameworkElement.ApplyTemplate().
+        /// </summary>
         public override void OnApplyTemplate()
         {
             var button = GetTemplateChild("PART_Button") as ButtonBase;
@@ -78,6 +89,13 @@ namespace Sharp.Utils.Wpf.Controls
             debounceTimer.Stop();
         }
 
+        #endregion
+
+        #region Dependency Properties
+
+        /// <summary>
+        /// Identifies the <see cref="ClickMode"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ClickModeProperty = DependencyProperty.Register("ClickMode", typeof(ClickMode), typeof(DropDownButton),
             new PropertyMetadata(ClickMode.Release));
 
@@ -90,6 +108,9 @@ namespace Sharp.Utils.Wpf.Controls
             set { SetValue(ClickModeProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="Command"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(DropDownButton),
             new PropertyMetadata(null));
 
@@ -102,6 +123,9 @@ namespace Sharp.Utils.Wpf.Controls
             set { SetValue(CommandProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="CommandParameter"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(DropDownButton),
             new PropertyMetadata(null));
 
@@ -114,6 +138,9 @@ namespace Sharp.Utils.Wpf.Controls
             set { SetValue(CommandParameterProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="CommandTarget"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(DropDownButton),
             new PropertyMetadata(null));
 
@@ -126,11 +153,14 @@ namespace Sharp.Utils.Wpf.Controls
             set { SetValue(CommandTargetProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="DropDown"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty DropDownProperty = DependencyProperty.Register("DropDown", typeof(FrameworkElement), typeof(DropDownButton),
             new PropertyMetadata(null, DropDownProperty_Changed));
 
         /// <summary>
-        /// Gets or sets the DropDown menu for the <see cref="WpfHelpers.Controls.DropDownButton"/>. Should be a ContextMenu or a Popup.
+        /// Gets or sets the DropDown menu for the <see cref="DropDownButton"/>. Should be a ContextMenu or a Popup.
         /// </summary>
         public FrameworkElement DropDown
         {
@@ -158,11 +188,14 @@ namespace Sharp.Utils.Wpf.Controls
             }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="IsDropDownOpen"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register("IsDropDownOpen", typeof(bool), typeof(DropDownButton),
             new UIPropertyMetadata(false, IsDropDownOpenProperty_Changed));
 
         /// <summary>
-        /// Gets or sets the DropDown menu for the <see cref="WpfHelpers.Controls.DropDownButton"/>.
+        /// Gets or sets the DropDown menu for the <see cref="DropDownButton"/>.
         /// </summary>
         public bool IsDropDownOpen
         {
@@ -189,6 +222,9 @@ namespace Sharp.Utils.Wpf.Controls
                 ddb.OnDropDownClosed(new RoutedEventArgs(DropDownClosedEvent));
         }
 
+        /// <summary>
+        /// Identifies the <see cref="IsDropDownEnabled"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsDropDownEnabledProperty = DependencyProperty.Register("IsDropDownEnabled", typeof(bool), typeof(DropDownButton),
             new UIPropertyMetadata(true));
 
@@ -201,6 +237,14 @@ namespace Sharp.Utils.Wpf.Controls
             set { SetValue(IsDropDownEnabledProperty, value); }
         }
 
+        #endregion
+
+        #region Routed Events
+
+        /// <summary>
+        /// Invoked when the user opens the drop-down.
+        /// </summary>
+        /// <param name="e">Arguments for the event.</param>
         protected virtual void OnDropDownOpened(RoutedEventArgs e)
         {
             if (e.Handled || !IsDropDownEnabled)
@@ -208,6 +252,9 @@ namespace Sharp.Utils.Wpf.Controls
             RaiseEvent(e);
         }
 
+        /// <summary>
+        /// Identifies the <see cref="DropDownOpened"/> routed event.
+        /// </summary>
         public static RoutedEvent DropDownOpenedEvent = EventManager.RegisterRoutedEvent("DropDownOpened", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(DropDownButton));
         
         /// <summary>
@@ -219,6 +266,10 @@ namespace Sharp.Utils.Wpf.Controls
             remove { RemoveHandler(DropDownOpenedEvent, value); }
         }
 
+        /// <summary>
+        /// Invoked when the user closes the drop-down.
+        /// </summary>
+        /// <param name="e">Arguments for the event.</param>
         protected virtual void OnDropDownClosed(RoutedEventArgs e)
         {
             if (e.Handled)
@@ -228,6 +279,9 @@ namespace Sharp.Utils.Wpf.Controls
             RaiseEvent(e);
         }
 
+        /// <summary>
+        /// Identifies the <see cref="DropDownClosed"/> routed event.
+        /// </summary>
         public static RoutedEvent DropDownClosedEvent = EventManager.RegisterRoutedEvent("DropDownClosed", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(DropDownButton));
 
         /// <summary>
@@ -239,6 +293,10 @@ namespace Sharp.Utils.Wpf.Controls
             remove { RemoveHandler(DropDownClosedEvent, value); }
         }
 
+        /// <summary>
+        /// Invoked when the user clicks on the drop-down button.
+        /// </summary>
+        /// <param name="e">Arguments for the event.</param>
         protected virtual void OnClick(RoutedEventArgs e)
         {
             if (e.Handled)
@@ -246,6 +304,9 @@ namespace Sharp.Utils.Wpf.Controls
             RaiseEvent(e);
         }
 
+        /// <summary>
+        /// Identifies the <see cref="Click"/> routed event.
+        /// </summary>
         public static RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DropDownButton));
 
         /// <summary>
@@ -256,5 +317,8 @@ namespace Sharp.Utils.Wpf.Controls
             add { AddHandler(ClickEvent, value); }
             remove { RemoveHandler(ClickEvent, value); }
         }
+
+        #endregion
+
     }
 }

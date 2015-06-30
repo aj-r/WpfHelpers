@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 namespace Sharp.Utils.Wpf
 {
+    /// <summary>
+    /// Contains static methods for controlling the focus of an application.
+    /// </summary>
     public static class FocusHelper
     {
         /// <summary>
@@ -13,7 +16,6 @@ namespace Sharp.Utils.Wpf
         {
             control.KeyDown += control_KeyDown;
         }
-
 
         private static void control_KeyDown(object sender, KeyEventArgs e)
         {

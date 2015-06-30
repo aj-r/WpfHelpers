@@ -6,6 +6,9 @@ using System.Windows.Media;
 
 namespace Sharp.Utils.Wpf
 {
+    /// <summary>
+    /// Contains extenstion methods for searching the visual tree of a DependencyObject.
+    /// </summary>
     public static class VisualTreeSearch
     {
         /// <summary>
@@ -87,6 +90,9 @@ namespace Sharp.Utils.Wpf
         /// <typeparam name="T">The type of element to search for.</typeparam>
         /// <param name="element">The child object.</param>
         /// <returns>The first ancestor found that matches the criteria, or null if none was found.</returns>
+        /// <remarks>
+        /// This method will search the visual tree and the logical tree.
+        /// </remarks>
         public static T Ancestor<T>(this DependencyObject element) where T : DependencyObject
         {
             while (element != null)
@@ -103,10 +109,12 @@ namespace Sharp.Utils.Wpf
         /// <summary>
         /// Detemines whether the specified element has the specified ancestor.
         /// </summary>
-        /// <typeparam name="T">The type of element to search for.</typeparam>
         /// <param name="element">The child object.</param>
         /// <param name="ancestor">The ancestor to look for.</param>
         /// <returns>True if the specified element has the specified ancestor; false if not.</returns>
+        /// <remarks>
+        /// This method will search the visual tree and the logical tree.
+        /// </remarks>
         public static bool HasAncestor(this DependencyObject element, DependencyObject ancestor)
         {
             while (element != null)

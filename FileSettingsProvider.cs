@@ -22,12 +22,9 @@ namespace Sharp.Utils.Wpf
         /// </summary>
         public FileSettingsProvider()
         {
-            ReplaceTokens = new Dictionary<string, string>();
             var entryAssembly = Assembly.GetEntryAssembly();
             applicationName = entryAssembly.GetName().Name;
         }
-
-        protected Dictionary<string, string> ReplaceTokens { get; private set; }
 
         /// <summary>
         /// Gets or sets the name of the currently running application.
@@ -72,25 +69,7 @@ namespace Sharp.Utils.Wpf
 
             string location = config["Location"];
             if (location != null)
-            {
-                Regex regex = new Regex(@"{(\w+)}");
-                var matches = regex.Replace(location, m =>
-                {
-                    var key = m.Groups[1].Value;
-                    Environment.SpecialFolder specialFolder;
-                    if (Enum.TryParse(key, true, out specialFolder))
-                    {
-                        return Environment.GetFolderPath(specialFolder);
-                    }
-                    string replacement;
-                    if (ReplaceTokens.TryGetValue(key, out replacement))
-                        return replacement;
-                    else if (key == "AppName")
-                        return ApplicationName;
-                    return m.Value;
-                });
                 Location = location;
-            }
         }
     }
 }
