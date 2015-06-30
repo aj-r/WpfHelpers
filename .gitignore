@@ -3,4 +3,5 @@ bin
 *.user
 *.suo
 *.orig
+*.nupkg
 /packages/*
