@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     /// <summary>
     /// Converts a <see cref="System.Boolean"/> value to customizable <see cref="System.Windows.Visibility"/> values.

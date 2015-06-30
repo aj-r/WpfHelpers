@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     public abstract class OneWayValueConverter : IValueConverter
     {

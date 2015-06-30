@@ -7,7 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     /// <summary>
     /// Contains helper methods for dragging and dropping controls.

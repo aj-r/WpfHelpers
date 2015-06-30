@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     public static class VisualTreeSearch
     {

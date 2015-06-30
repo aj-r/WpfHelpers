@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using WpfHelpers.ViewModel;
+using SharpUtils.Wpf.ViewModel;
 
-namespace WpfHelpers.Controls
+namespace SharpUtils.Wpf.Controls
 {
     /// <summary>
     /// Interaction logic for FilePicker.xaml

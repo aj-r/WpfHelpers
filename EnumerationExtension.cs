@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     public class EnumerationExtension : MarkupExtension
     {

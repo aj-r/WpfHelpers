@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     /// <summary>
     /// Converts a numeric value to and from a string.

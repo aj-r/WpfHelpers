@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using Utils.ObjectModel;
-using WpfHelpers.Controls;
+using SharpUtils.ObjectModel;
+using SharpUtils.Wpf.Controls;
 
-namespace WpfHelpers.ViewModel
+namespace SharpUtils.Wpf.ViewModel
 {
     internal class FilePickerViewModel : NotifyPropertyChangedBase
     {

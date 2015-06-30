@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     /// <summary>
     /// A multi-value converter that combines boolean values using or logic.

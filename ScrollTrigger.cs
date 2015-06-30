@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     public class ScrollTrigger : TriggerBase<FrameworkElement>
     {

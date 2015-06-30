@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfHelpers.Controls
+namespace SharpUtils.Wpf.Controls
 {
     /// <summary>
     /// A text box that only allows integer input.

@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Threading;
 
-namespace WpfHelpers.Controls
+namespace SharpUtils.Wpf.Controls
 {
     [TemplatePart(Name = "PART_Button")]
     [TemplatePart(Name = "PART_DropDownHost")]

@@ -2,7 +2,7 @@
 using System.Timers;
 using System.Windows;
 
-namespace WpfHelpers
+namespace SharpUtils.Wpf
 {
     /// <summary>
     /// Contains data relating to the drag portion of a drag-and-drop operation.
