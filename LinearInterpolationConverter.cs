@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Calculates a <see cref="System.Double"/> value by linearly interpolating between two numeric values.

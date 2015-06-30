@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Converts a <see cref="System.TimeSpan"/> to a string displaying the most significant non-zero component of the timespan.

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Converts a nullable value to a boolean: true if the value is not null; false if it is null.

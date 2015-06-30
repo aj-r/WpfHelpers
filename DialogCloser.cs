@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Contains an attached property that can be used to set the DialogResult of a window.

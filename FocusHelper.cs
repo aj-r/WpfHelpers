@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     public static class FocusHelper
     {

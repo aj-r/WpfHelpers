@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// A FileSettingProvider that stores settings in XML format.

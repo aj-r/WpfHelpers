@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// An abstract SettingsProvider class that allows you to control where the settings file is saved.

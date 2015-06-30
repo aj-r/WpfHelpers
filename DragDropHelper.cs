@@ -7,7 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     /// <summary>
     /// Contains helper methods for dragging and dropping controls.
@@ -57,7 +57,7 @@ namespace SharpUtils.Wpf
         /// <summary>
         /// Unregisters an object as a drag source.
         /// </summary>
-        /// <param name="element">The element to make non-draggable</param>
+        /// <param name="dragSource">The element to make non-draggable.</param>
         public static void UnregisterDragSource(UIElement dragSource)
         {
             if (!dragDefinitions.Remove(dragSource))
@@ -100,7 +100,7 @@ namespace SharpUtils.Wpf
         /// <summary>
         /// Unregisters an object as a drop target.
         /// </summary>
-        /// <param name="element">The element to make non-droppable</param>
+        /// <param name="dropTarget">The element to make non-droppable.</param>
         public static void UnregisterDropTarget(UIElement dropTarget)
         {
             if (!dropDefinitions.Remove(dropTarget))

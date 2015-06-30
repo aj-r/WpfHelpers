@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Interop;
 
 // From http://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     public static class WindowExtensions
     {

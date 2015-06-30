@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace SharpUtils.Wpf
+namespace Sharp.Utils.Wpf
 {
     public class EnumToStringConverter : OneWayValueConverter
     {

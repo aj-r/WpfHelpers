@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SharpUtils.Wpf.Controls
+namespace Sharp.Utils.Wpf.Controls
 {
     /// <summary>
     /// Base class for a text box that only allows a specific type of input.

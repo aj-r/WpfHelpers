@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Microsoft.Win32;
-using SharpUtils.ObjectModel;
-using SharpUtils.Wpf.Controls;
+using Sharp.Utils.ObjectModel;
+using Sharp.Utils.Wpf.Controls;
 
-namespace SharpUtils.Wpf.ViewModel
+namespace Sharp.Utils.Wpf.ViewModel
 {
     internal class FilePickerViewModel : NotifyPropertyChangedBase
     {

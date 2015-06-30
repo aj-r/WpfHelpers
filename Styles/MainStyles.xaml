@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-                    xmlns:h="clr-namespace:SharpUtils.Wpf"
-                    xmlns:c="clr-namespace:SharpUtils.Wpf.Controls">
+                    xmlns:h="clr-namespace:Sharp.Utils.Wpf"
+                    xmlns:c="clr-namespace:Sharp.Utils.Wpf.Controls">
     <h:BoolToVisibilityConverter x:Key="WpfHelpers_BoolToVisibilityConverter" />
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Black" />
     <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="Transparent" />
